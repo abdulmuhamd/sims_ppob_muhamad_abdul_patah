@@ -41,6 +41,8 @@ body {
   gap: 10px;
   font-weight: 700;
   font-size: 17px;
+  text-decoration: none;
+  color: var(--text);
 }
 
 .brand img {
@@ -136,11 +138,28 @@ nav a.active {
   width: fit-content;
   font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
 }
 
-.balance-toggle span {
-  font-size: 10px;
-  margin-left: 5px;
+.balance-eye-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.balance-eye-icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.balance-eye-icon circle {
+  fill: currentColor;
 }
 
 .content-block {
@@ -220,12 +239,27 @@ nav a.active {
   display: grid;
   grid-template-columns: 1fr 286px;
   gap: 12px;
+  margin-top: 12px;
+  align-items: start;
+}
+
+.topup-input-stack {
+  display: grid;
+  gap: 12px;
 }
 
 .nominal-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.topup-submit {
+  margin-top: 0;
+}
+
+.topup-page .content-block {
+  margin-top: 50px;
 }
 
 .nominal-grid button {
@@ -285,6 +319,10 @@ nav a.active {
 .payment-info img {
   width: 34px;
   height: 34px;
+}
+
+.payment-submit {
+  margin-top: 14px;
 }
 
 .history-list {
