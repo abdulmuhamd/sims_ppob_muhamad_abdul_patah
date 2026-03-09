@@ -1,0 +1,458 @@
+:root {
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --brand: #f42626;
+  --bg-soft: #fff6f6;
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: #fff;
+}
+
+.container {
+  width: min(1140px, 92%);
+  margin: 0 auto;
+}
+
+.top-nav {
+  border-bottom: 1px solid #f1f1f1;
+  background: #fff;
+}
+
+.nav-body {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brand img {
+  width: 28px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a.active {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.page {
+  padding: 34px 0 60px;
+}
+
+.hero-row {
+  display: grid;
+  grid-template-columns: 390px 1fr;
+  gap: 26px;
+}
+
+.profile-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.profile-summary img {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #f3f4f6;
+}
+
+.profile-summary p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.profile-summary h2 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.balance-card {
+  background: url("/assets/Background Saldo.png") center/cover no-repeat;
+  min-height: 180px;
+  border-radius: 20px;
+  padding: 28px;
+  color: #fff;
+}
+
+.balance-card p {
+  margin: 0;
+  opacity: 0.95;
+}
+
+.balance-card h2 {
+  margin: 22px 0 8px;
+  font-size: 38px;
+  letter-spacing: 0.4px;
+}
+
+.content-block {
+  margin-top: 38px;
+}
+
+.content-block h3 {
+  margin: 0 0 16px;
+  font-size: 19px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px 10px;
+}
+
+.service-card {
+  grid-column: span 1;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-card img {
+  width: 56px;
+  height: 56px;
+}
+
+.service-card span {
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 78px;
+}
+
+.banner-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(230px, 1fr);
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.banner-row img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.topup-area input,
+.profile-form input,
+.content-block input,
+.auth-panel input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.topup-area input:focus,
+.profile-form input:focus,
+.content-block input:focus,
+.auth-panel input:focus {
+  border-color: #c4c8cf;
+}
+
+.topup-area {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 14px;
+}
+
+.nominal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.nominal-grid button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  height: 52px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.nominal-grid button:hover {
+  border-color: #d6d9df;
+}
+
+.danger-btn,
+.ghost-btn,
+.auth-panel button {
+  height: 52px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.danger-btn,
+.auth-panel button {
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  color: #fff;
+}
+
+.danger-btn:disabled,
+.auth-panel button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ghost-btn {
+  border: 1px solid var(--brand);
+  background: #fff;
+  color: var(--brand);
+}
+
+.payment-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.payment-info img {
+  width: 34px;
+  height: 34px;
+}
+
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.history-item {
+  border: 1px solid #efefef;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-item h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.history-item p {
+  margin: 6px 0 0;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.plus {
+  color: #16a34a;
+}
+
+.minus {
+  color: #ef4444;
+}
+
+.link-btn {
+  margin: 16px auto 0;
+  display: block;
+  border: none;
+  background: transparent;
+  color: var(--brand);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profile-page {
+  max-width: 560px;
+}
+
+.image-picker {
+  text-align: center;
+  display: block;
+  margin: 0 auto 24px;
+}
+
+.image-picker .profile-image,
+.image-picker img {
+  width: 138px;
+  height: 138px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #f0f0f0;
+}
+
+.image-picker span {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.image-picker input {
+  display: none;
+}
+
+.profile-form {
+  display: grid;
+  gap: 14px;
+}
+
+.profile-form input[readonly] {
+  background: #fff;
+}
+
+.action-row {
+  display: grid;
+  gap: 10px;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 48% 52%;
+}
+
+.auth-panel {
+  width: min(420px, 88%);
+  margin: auto;
+}
+
+.auth-logo {
+  width: 112px;
+}
+
+.auth-panel h1 {
+  margin: 30px 0 26px;
+  font-size: 30px;
+  line-height: 1.3;
+}
+
+.auth-panel form {
+  display: grid;
+  gap: 12px;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 13px;
+  color: #ef4444;
+}
+
+.inline-link {
+  margin-top: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.inline-link a {
+  text-decoration: none;
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.auth-hero {
+  background: var(--bg-soft);
+  display: grid;
+  place-items: center;
+}
+
+.auth-hero img {
+  width: min(560px, 86%);
+}
+
+@media (max-width: 980px) {
+  .hero-row {
+    grid-template-columns: 1fr;
+  }
+
+  .topup-area {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .service-card {
+    grid-column: span 1;
+  }
+
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-hero {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .services-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px 8px;
+  }
+
+  .nominal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  nav {
+    gap: 14px;
+  }
+
+  .profile-summary h2 {
+    font-size: 24px;
+  }
+
+  .balance-card h2 {
+    font-size: 31px;
+  }
+
+  .history-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
