@@ -80,6 +80,7 @@ function AuthLayout({ mode = "login" }) {
   }, [token, navigate]);
 
   const isRegister = mode === "register";
+  const title = isRegister ? "Lengkapi data untuk membuat akun" : "Masuk atau buat akun untuk memulai";
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -113,8 +114,11 @@ function AuthLayout({ mode = "login" }) {
   return (
     <main className="auth-shell">
       <section className="auth-panel">
-        <img src={`${ASSET}/Logo.png`} alt="Logo" className="auth-logo" />
-        <h1>Masuk atau buat akun untuk memulai</h1>
+        <div className="auth-brand">
+          <img src={`${ASSET}/Logo.png`} alt="Logo" className="auth-logo" />
+          <span>SIMS PPOB</span>
+        </div>
+        <h1>{title}</h1>
         <form onSubmit={onSubmit}>
           <input
             placeholder="Masukkan email anda"
@@ -137,7 +141,7 @@ function AuthLayout({ mode = "login" }) {
             </>
           )}
           <input
-            placeholder="Buat password"
+            placeholder={isRegister ? "buat password" : "masukkan password anda"}
             type="password"
             value={form.password}
             onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
@@ -152,7 +156,7 @@ function AuthLayout({ mode = "login" }) {
           )}
           {error ? <p className="error-text">{error}</p> : null}
           <button type="submit" disabled={loading}>
-            {loading ? "Memproses..." : isRegister ? "Registrasi" : "Masuk"}
+          {loading ? "Memproses..." : isRegister ? "Registrasi" : "Masuk"}
           </button>
         </form>
         {isRegister ? (
@@ -161,7 +165,7 @@ function AuthLayout({ mode = "login" }) {
           </p>
         ) : (
           <p className="inline-link">
-            belum punya akun? register <NavLink to="/register">di sini</NavLink>
+            belum punya akun? registrasi <NavLink to="/register">di sini</NavLink>
           </p>
         )}
       </section>
@@ -194,10 +198,19 @@ function Navbar() {
 
 function BalanceCard() {
   const { balance, balanceVisible } = useSelector((state) => state.ppob);
+  const [showBalance, setShowBalance] = useState(balanceVisible);
+
+  const onToggleBalance = () => {
+    setShowBalance((prev) => !prev);
+  };
+
   return (
     <article className="balance-card">
       <p>Saldo anda</p>
-      <h2>{balanceVisible ? formatCurrency(balance) : "Rp ******"}</h2>
+      <h2>{showBalance ? formatCurrency(balance) : "Rp •••••••"}</h2>
+      <button type="button" className="balance-toggle" onClick={onToggleBalance}>
+        {showBalance ? "Tutup Saldo" : "Lihat Saldo"} <span>◉</span>
+      </button>
     </article>
   );
 }
@@ -232,7 +245,6 @@ function HomePage() {
         <BalanceCard />
       </div>
       <div className="content-block">
-        <h3>Pilih Layanan</h3>
         <div className="services-grid">
           {services.map((service) => (
             <button key={service.service_code} className="service-card" onClick={() => navigate(`/payment/${service.service_code}`)}>
@@ -286,7 +298,11 @@ function TopupPage() {
       <div className="content-block">
         <h3>Silahkan masukkan nominal Top Up</h3>
         <div className="topup-area">
-          <input value={amount} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} placeholder="masukkan nominal Top Up" />
+          <input
+            value={amount}
+            onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))}
+            placeholder="masukan nominal Top Up"
+          />
           <div className="nominal-grid">
             {nominalOptions.map((nominal) => (
               <button key={nominal} onClick={() => setAmount(String(nominal))}>
@@ -399,11 +415,9 @@ function ProfilePage() {
   const navigate = useNavigate();
   const profile = useSelector((state) => state.ppob.profile);
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ first_name: "", last_name: "" });
-
-  useEffect(() => {
-    setForm({ first_name: profile.first_name || "", last_name: profile.last_name || "" });
-  }, [profile.first_name, profile.last_name]);
+  const [form, setForm] = useState(null);
+  const firstName = form?.first_name ?? profile.first_name ?? "";
+  const lastName = form?.last_name ?? profile.last_name ?? "";
 
   const onPickImage = async (event) => {
     const file = event.target.files?.[0];
@@ -419,11 +433,12 @@ function ProfilePage() {
   };
 
   const onSave = async () => {
-    if (!form.first_name.trim() || !form.last_name.trim()) return alert("Nama wajib diisi.");
+    if (!firstName.trim() || !lastName.trim()) return alert("Nama wajib diisi.");
     try {
-      await dispatch(updateProfile(form)).unwrap();
+      await dispatch(updateProfile({ first_name: firstName.trim(), last_name: lastName.trim() })).unwrap();
       alert("Profile berhasil diperbarui.");
       setEditing(false);
+      setForm(null);
     } catch (err) {
       alert(err || "Gagal memperbarui profile.");
     }
@@ -438,30 +453,74 @@ function ProfilePage() {
     <section className="container page profile-page">
       <label className="image-picker">
         <ProfileImage src={profile.profile_image} className="profile-image" />
-        <span>Ubah Foto Profile</span>
+        <span className="edit-badge">✎</span>
         <input type="file" accept="image/png,image/jpeg" onChange={onPickImage} />
       </label>
+      <h2 className="profile-fullname">
+        {profile.first_name} {profile.last_name}
+      </h2>
       <div className="profile-form">
-        <input value={profile.email || ""} readOnly />
-        <input value={form.first_name} onChange={(event) => setForm((prev) => ({ ...prev, first_name: event.target.value }))} readOnly={!editing} />
-        <input value={form.last_name} onChange={(event) => setForm((prev) => ({ ...prev, last_name: event.target.value }))} readOnly={!editing} />
+        <label>
+          Email
+          <input value={profile.email || ""} readOnly />
+        </label>
+        <label>
+          Nama Depan
+          <input
+            value={firstName}
+            onChange={(event) =>
+              setForm((prev) => ({
+                first_name: event.target.value,
+                last_name: prev?.last_name ?? profile.last_name ?? "",
+              }))
+            }
+            readOnly={!editing}
+          />
+        </label>
+        <label>
+          Nama Belakang
+          <input
+            value={lastName}
+            onChange={(event) =>
+              setForm((prev) => ({
+                first_name: prev?.first_name ?? profile.first_name ?? "",
+                last_name: event.target.value,
+              }))
+            }
+            readOnly={!editing}
+          />
+        </label>
         {!editing ? (
-          <button className="danger-btn" onClick={() => setEditing(true)}>
-            Edit Profile
-          </button>
+          <>
+            <button
+              className="ghost-btn"
+              onClick={() => {
+                setForm({ first_name: profile.first_name || "", last_name: profile.last_name || "" });
+                setEditing(true);
+              }}
+            >
+              Edit Profile
+            </button>
+            <button className="danger-btn" onClick={onLogout}>
+              Logout
+            </button>
+          </>
         ) : (
           <div className="action-row">
             <button className="danger-btn" onClick={onSave}>
               Simpan
             </button>
-            <button className="ghost-btn" onClick={() => setEditing(false)}>
+            <button
+              className="ghost-btn"
+              onClick={() => {
+                setEditing(false);
+                setForm(null);
+              }}
+            >
               Batalkan
             </button>
           </div>
         )}
-        <button className="ghost-btn" onClick={onLogout}>
-          Logout
-        </button>
       </div>
     </section>
   );
